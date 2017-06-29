@@ -23,14 +23,17 @@ createWidget('menu-links', {
 
 createWidget('menu-panel', {
   tagName: 'div.menu-panel',
+  template: `
+    <div class='panel-body'>
+      <div class='panel-body-contents clearfix'>
+        {{yield}}
+      </div>
+    </div>
+  `,
 
   buildAttributes(attrs) {
     if (attrs.maxWidth) {
       return { 'data-max-width': attrs.maxWidth };
     }
   },
-
-  html(attrs) {
-    return h('div.panel-body', h('div.panel-body-contents.clearfix', attrs.contents()));
-  }
 });

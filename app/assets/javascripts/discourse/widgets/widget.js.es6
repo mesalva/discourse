@@ -5,6 +5,7 @@ import { WidgetClickHook,
          WidgetDragHook } from 'discourse/widgets/hooks';
 import { h } from 'virtual-dom';
 import DecoratorHelper from 'discourse/widgets/decorator-helper';
+import { compile } from 'discourse/widgets/hbs-compiler';
 
 function emptyContent() { }
 
@@ -111,6 +112,11 @@ export function createWidget(name, opts) {
   opts.name = name;
   opts.html = opts.html || emptyContent;
   opts.draw = drawWidget;
+
+  if (opts.template) {
+    const compiled = compile(opts.template);
+    opts.html = Function("attrs", "state", compiled);
+  }
 
   Object.keys(opts).forEach(k => result.prototype[k] = opts[k]);
   return result;
